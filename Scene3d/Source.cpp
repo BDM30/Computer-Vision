@@ -251,7 +251,7 @@ void reshape(GLsizei width, GLsizei height) {  // GLsizei for non-negative integ
 	glMatrixMode(GL_PROJECTION);  // To operate on the Projection matrix
 	glLoadIdentity();             // Reset
 								  // Enable perspective projection with fovy, aspect, zNear and zFar
-	gluPerspective(80.0f, aspect, 0.1f, 10000.0f);
+	gluPerspective(40.0f, aspect, 0.1f, 10000.0f);
 }
 
 /* Main function: GLUT runs as a console application starting at main() */

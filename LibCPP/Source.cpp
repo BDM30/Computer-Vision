@@ -1,11 +1,12 @@
 #include <iostream>
 #include <Eigen/Dense>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 using namespace Eigen;
 
-namespace MathFuncs
+namespace LibCpp
 {
 
 	struct imgPoint {
@@ -45,16 +46,13 @@ namespace MathFuncs
 		return vecPt;
 	}
 
-
 	// first array 20 values: 4 points: 3d scene + 2d image
 	// second array 4 values: 2 vanishing points
 
-	// out 18 values 2 matrix homo and its inverse
+	// out homo.txt and homoi.txt (inverse)
 
-	double* calcHomo(double f[], double s[])
+	void calcHomo(double f[], double s[])
 	{
-		double* result = new double[18]();
-
 		imgPoint zeroImg;
 		zeroImg.x = f[0];
 		zeroImg.y = f[1];
@@ -228,6 +226,13 @@ namespace MathFuncs
 		std::cout << "\n Homography matrix (from image to scene): \n" << homo << endl;
 		std::cout << "\n Homography matrix (from scene to image): \n" << homo.inverse() << endl;
 
+		ofstream fout("homo.txt");
+		fout << homo;
+		fout.close();
+		fout.open("homoi.txt");
+		fout << homo.inverse();
+		fout.close();
+
 		i = 1;
 		for (iterRPt = planePts.begin(); iterRPt != planePts.end(); iterRPt++, i++)
 		{
@@ -257,35 +262,15 @@ namespace MathFuncs
 		Vector3d yVPScn;
 		yVPScn << 0, 1, 0;
 		std::cout << "\n SceneCoord: \n" << yVPScn << endl;
-
-		result[0] = homo.row(0)[0];
-		result[1] = homo.row(0)[1];
-		result[2] = homo.row(0)[2];
-		result[3] = homo.row(1)[0];
-		result[4] = homo.row(1)[1];
-		result[5] = homo.row(1)[2];
-		result[6] = homo.row(2)[0];
-		result[7] = homo.row(2)[1];
-		result[8] = homo.row(2)[2];
-
-		Matrix3d resi = homo.inverse();
-
-		result[9] = resi.row(0)[0];
-		result[10] = resi.row(0)[1];
-		result[11] = resi.row(0)[2];
-		result[12] = resi.row(1)[0];
-		result[13] = resi.row(1)[1];
-		result[14] = resi.row(1)[2];
-		result[15] = resi.row(2)[0];
-		result[16] = resi.row(2)[1];
-		result[17] = resi.row(2)[2];
-
-		return result;
 	}
+
+}
 
 	int main()
 	{
-		// Todo протестировать
+		
+
+		
 		double f[] =
 		{
 			388.220,
@@ -317,16 +302,9 @@ namespace MathFuncs
 			-487.049,
 			-324.402
 		};
+		LibCpp::calcHomo(f,s);
 
-		double *x = calcHomo(f, s);
-
-		std::cout << x[0] << " " << x[1] << " " << x[2] << endl;
-		std::cout << x[3] << " " << x[4] << " " << x[5] << endl;
-		std::cout << x[6] << " " << x[7] << " " << x[8] << endl << endl;
-
-		std::cout << x[9] << " " << x[10] << " " << x[11] << endl;
-		std::cout << x[12] << " " << x[13] << " " << x[14] << endl;
-		std::cout << x[15] << " " << x[16] << " " << x[17] << endl << endl;
 		return 0;
 	}
-}
+
+
