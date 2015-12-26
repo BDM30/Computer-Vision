@@ -265,8 +265,50 @@ namespace LibCpp
 		std::cout << "\n SceneCoord: \n" << yVPScn << endl;
 	}
 
+	void get3dCoords(double x, double y)
+	{
+		connPoint newPollPt;
+		newPollPt.imgPt.x = x;
+		newPollPt.imgPt.y = y;
+		newPollPt.imgPt.w = 1;
+		newPollPt.scnPt.w = 1;
+
+		// reading Inversed Homo Matrix
+		std::fstream myfile("homo.txt", std::ios_base::in);
+		float a;
+		double refHomoS2Array[9];
+		int i = 0;
+
+		while (myfile >> a)
+		{
+			refHomoS2Array[i++] = a;
+		}
+
+		Matrix3d refHomoI2S; // ?? ?­??? ? qt
+		refHomoI2S(0, 0) = refHomoS2Array[0];
+		refHomoI2S(0, 1) = refHomoS2Array[1];
+		refHomoI2S(0, 2) = refHomoS2Array[2];
+		refHomoI2S(1, 0) = refHomoS2Array[3];
+		refHomoI2S(1, 1) = refHomoS2Array[4];
+		refHomoI2S(1, 2) = refHomoS2Array[5];
+		refHomoI2S(2, 0) = refHomoS2Array[6];
+		refHomoI2S(2, 1) = refHomoS2Array[7];
+		refHomoI2S(2, 2) = refHomoS2Array[8];
+
+		newPollPt.homoMatrixEig3 = refHomoI2S; // обычная гомография
+		newPollPt.scnPt.z = 0;
+		Vector3d scnCord = newPollPt.homoMatrixEig3 * imgPointToVector3d(newPollPt.imgPt);
+		scnCord /= scnCord(2);
+		newPollPt.scnPt.x = scnCord(0);
+		newPollPt.scnPt.y = scnCord(1);
+
+		cout << "Scene Coordinates: (" << newPollPt.scnPt.x << ", " << newPollPt.scnPt.y << ", " << 0 << ")" << endl;
+		/*PtPool.push_back(*newPollPt);
+		poolCache = newPollPt;*/
+	}
+
 	// input: zVP, 2 RH points + 2 points RH 3d + 2d
-	// out: Proj
+	// out: Proj.txt
 	// return: gammaZ
 	double calcAlphaZ(double f[], double s[])
 	{
@@ -282,7 +324,7 @@ namespace LibCpp
 			refHomoS2IArray[i++] = a;
 		}
 
-		Matrix3d refHomoS2I; // ба ў­Ёвм б qt
+		Matrix3d refHomoS2I; // ?? ?­??? ? qt
 		refHomoS2I(0, 0) = refHomoS2IArray[0];
 		refHomoS2I(0, 1) = refHomoS2IArray[1];
 		refHomoS2I(0, 2) = refHomoS2IArray[2];
@@ -348,7 +390,7 @@ namespace LibCpp
 		int sign = 1;
 		if ((b.cross(t).dot(Vz.cross(t))) > 0) sign = -1;
 		double gammaZ;
-		gammaZ = sign * ((P1.cross(P2)).dot(O)) * (b.cross(t)).norm() / 
+		gammaZ = sign * ((P1.cross(P2)).dot(O)) * (b.cross(t)).norm() /
 			(deltaz * ((P1.cross(P2)).dot(b)) * (Vz.cross(t)).norm() + z * ((P1.cross(P2)).dot(Vz)) * (b.cross(t)).norm());
 
 		Matrix<double, 3, 4> Proj;
@@ -364,32 +406,8 @@ namespace LibCpp
 	}
 }
 
-//int main()
-//{
-//	double f[] =
-//	{
-//		463.022,
-//		1283.148
-//	};
-//
-//	double s[] =
-//	{
-//		385.809,
-//		323.662,
-//		1,
-//		1,
-//		0,
-//
-//		397.368,
-//		473.411,
-//		1,
-//		1,
-//		-1
-//	};
-//
-//	LibCpp::calcAlphaZ(f,s);
-//	return 6;
-//}
-
-
-
+int main()
+{
+	LibCpp::get3dCoords(388, 323);
+	return 0;
+}
