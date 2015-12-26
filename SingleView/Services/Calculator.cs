@@ -55,34 +55,37 @@ namespace SingleView.Services
 
       double[] f =
     {
-      388.220,
-      324.755,
-      1,
-      1,
-      0,
-      541.450,
-      217.266,
-      0,
-      1,
-      0,
-      250.999,
-      222.983,
-      1,
-      0,
-      0,
-      399.083,
-      140.079,
-      0,
-      0,
-      0
+      DataManager.RP1Image.X,
+      DataManager.RP1Image.Y,
+      DataManager.RP1Space.X,
+      DataManager.RP1Space.Y,
+      DataManager.RP1Space.Z,
+
+      DataManager.RP2Image.X,
+      DataManager.RP2Image.Y,
+      DataManager.RP2Space.X,
+      DataManager.RP2Space.Y,
+      DataManager.RP2Space.Z,
+
+      DataManager.RP3Image.X,
+      DataManager.RP3Image.Y,
+      DataManager.RP3Space.X,
+      DataManager.RP3Space.Y,
+      DataManager.RP3Space.Z,
+
+      DataManager.RP4Image.X,
+      DataManager.RP4Image.Y,
+      DataManager.RP4Space.X,
+      DataManager.RP4Space.Y,
+      DataManager.RP4Space.Z,
     };
 
       double[] s =
       {
-      1337.689,
-      -341.289,
-      -487.049,
-      -324.402
+      DataManager.XVP.X,
+      DataManager.XVP.Y,
+      DataManager.YVP.X,
+      DataManager.YVP.Y,
     };
       calcHomo(f, s);
 
