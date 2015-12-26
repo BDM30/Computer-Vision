@@ -17,6 +17,8 @@ namespace SingleView.Services
 
     [DllImport("LibCPP", CallingConvention = CallingConvention.Cdecl)]
     public static extern void calcHomo(double[] f, double[] s);
+    [DllImport("LibCPP", CallingConvention = CallingConvention.Cdecl)]
+    public static extern double calcAlphaZ(double[] f, double[] s);
 
     // основано на https://kusemanohar.files.wordpress.com/2014/03/vanishingpt_bobcollins.pdf
     public void CalcVP()
@@ -42,6 +44,40 @@ namespace SingleView.Services
         new Vector(DataManager.Z21.X, DataManager.Z21.Y, 1),
         new Vector(DataManager.Z22.X, DataManager.Z22.Y, 1));
     }
+
+    public List<string> CalcAlphaZ()
+    {
+      List<string> result = new List<string>();
+      double[] f =
+      {
+        DataManager.ZVP.X,
+        DataManager.ZVP.Y
+      };
+
+      double[] s =
+      {
+        DataManager.RH1Image.X,
+        DataManager.RH1Image.Y,
+        DataManager.RH1Space.X,
+        DataManager.RH1Space.Y,
+        DataManager.RH1Space.Z,
+
+        DataManager.RH2Image.X,
+        DataManager.RH2Image.Y,
+        DataManager.RH2Space.X,
+        DataManager.RH2Space.Y,
+        DataManager.RH2Space.Z
+      };
+
+      
+      DataManager.AlphaZ = calcAlphaZ(f, s);
+      result.Add("alphaZ = " + DataManager.AlphaZ.ToString());
+
+      result.Add("projection matrix P:");
+      string[] linesHomo = System.IO.File.ReadAllLines(@"proj.txt");
+      result.AddRange(linesHomo);
+      return result;
+    } 
 
     public List<string> CalcHG()
     {

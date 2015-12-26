@@ -51,6 +51,9 @@ namespace SingleView.Services
     public static DotSpatial.Topology.Point RH1Space;
     public static DotSpatial.Topology.Point RH2Space;
 
+    // alpha Z
+    public static double AlphaZ;
+
     // если не пуста и лежит в радиусе 10px
     private static bool IsGoodPoint(Point i, Point lineEnd)
     {

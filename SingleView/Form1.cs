@@ -274,5 +274,23 @@ namespace SingleView
         MessageBox.Show(@"error state pick 4 point in reference plane first!");
       }
     }
+
+    private void alphaToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      if (StateManager.CurrentState == StateManager.ReferenceHeightAllPicked)
+      {
+        var res = calc.CalcAlphaZ();
+        listBox.Items.Add("we calced alpha Z and Projection Matrix");
+        foreach (var s in res)
+        {
+          listBox.Items.Add(s);
+        }
+        StateManager.CurrentState = StateManager.AlphaZCalced;
+      }
+      else
+      {
+        MessageBox.Show(@"error state pick 2 reference height point first!");
+      }
+    }
   }
 }

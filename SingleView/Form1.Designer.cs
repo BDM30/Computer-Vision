@@ -139,7 +139,8 @@
       // 
       this.alphaToolStripMenuItem.Name = "alphaToolStripMenuItem";
       this.alphaToolStripMenuItem.Size = new System.Drawing.Size(220, 26);
-      this.alphaToolStripMenuItem.Text = "Alpha";
+      this.alphaToolStripMenuItem.Text = "Alpha Z";
+      this.alphaToolStripMenuItem.Click += new System.EventHandler(this.alphaToolStripMenuItem_Click);
       // 
       // sceneToImageToolStripMenuItem
       // 
