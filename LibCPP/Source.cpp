@@ -313,7 +313,7 @@ namespace LibCpp
 	}
 
 	// input: zVP, 2 RH points + 2 points RH 3d + 2d
-	// out: Proj.txt
+	// out: proj.txt
 	// return: gammaZ
 	double calcAlphaZ(double f[], double s[])
 	{
@@ -409,10 +409,56 @@ namespace LibCpp
 
 		return gammaZ;
 	}
+
+	// input: x,y,z coordinates of 3D point
+	// out: buffer.txt
+	void get2dCoords(double x, double y, double z)
+	{
+		Vector4d scnCord;
+		scnCord(0) = x;
+		scnCord(1) = y;
+		scnCord(2) = z;
+		scnCord(3) = 1;
+		// Todo: считать матрицу P из файла
+
+		// reading P
+		std::fstream myfile("proj.txt", std::ios_base::in);
+		float a;
+		double pArray[12];
+		int i = 0;
+
+		while (myfile >> a)
+		{
+			pArray[i++] = a;
+		}
+
+		Matrix<double, 3, 4> Proj;
+		Proj(0, 0) = pArray[0];
+		Proj(0, 1) = pArray[1];
+		Proj(0, 2) = pArray[2];
+		Proj(0, 3) = pArray[3];
+		Proj(1, 0) = pArray[4];
+		Proj(1, 1) = pArray[5];
+		Proj(1, 2) = pArray[6];
+		Proj(1, 3) = pArray[7];
+		Proj(2, 0) = pArray[8];
+		Proj(2, 1) = pArray[9];
+		Proj(2, 2) = pArray[10];
+		Proj(2, 3) = pArray[11];
+
+		Vector3d imgCord = Proj * scnCord;
+		imgCord /= imgCord(2);
+		cout << "\n Scene coordinates: \n" << scnCord << "\n Image coordinates: \n" << imgCord << endl;
+
+		ofstream fout("buffer.txt");
+		fout << (int) imgCord(0) << " " << (int) imgCord(1);
+		fout.close();
+	}
+
 }
 
 //int main()
 //{
-//	LibCpp::get3dCoords(388, 323);
+//	LibCpp::get2dCoords(1, 1, 0);
 //	return 0;
 //}

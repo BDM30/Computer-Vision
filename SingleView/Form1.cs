@@ -314,5 +314,24 @@ namespace SingleView
         MessageBox.Show(@"error state calc projection matrix first!");
       }
     }
+
+    private void sceneToImageToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      if (StateManager.CurrentState >= StateManager.AlphaZCalced)
+      {
+        // диалогом взять точку, перевести ее в 2д, отрисовать ее на пикче.
+        Graphics g = Graphics.FromHwnd(pictureBox.Handle);
+        SolidBrush pointBrush = new SolidBrush(Color.Gold);
+        DotSpatial.Topology.Point point3D = PointGetter3D.ShowDialog(limitedZ: false);
+        Point point2D = calc.get2Dfrom3D(point3D);
+        g.FillEllipse(pointBrush, point2D.X - 5, point2D.Y - 5, 10, 10);
+        listBox.Items.Add("picked (" + point3D.X + ";" + point3D.Y + ";" + point3D.Z + ") on scene as (" + point2D.X + ";" +
+                            point2D.Y + " ) in picture");
+      }
+      else
+      {
+        MessageBox.Show(@"error state calc projection matrix first!");
+      }
+    }
   }
 }

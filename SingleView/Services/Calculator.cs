@@ -23,6 +23,9 @@ namespace SingleView.Services
     [DllImport("LibCPP", CallingConvention = CallingConvention.Cdecl)]
     public static extern void get3dCoords(double x, double y, double z3d);
 
+    [DllImport("LibCPP", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void get2dCoords(double x, double y, double z);
+
     // основано на https://kusemanohar.files.wordpress.com/2014/03/vanishingpt_bobcollins.pdf
     public void CalcVP()
     {
@@ -190,6 +193,14 @@ namespace SingleView.Services
       string[] line = System.IO.File.ReadAllLines(@"buffer.txt");
       string[] xy = line.First().Replace(".",",").Split(' ');
       return new Point(double.Parse(xy.First()), double.Parse(xy.Last()), planeZ);
+    }
+
+    public System.Drawing.Point get2Dfrom3D(Point p)
+    {
+      get2dCoords(p.X, p.Y,p.Z);
+      string[] line = System.IO.File.ReadAllLines(@"buffer.txt");
+      string[] xy = line.First().Split(' ');
+      return new System.Drawing.Point(int.Parse(xy.First()), int.Parse(xy.Last()));
     }
   }
 }

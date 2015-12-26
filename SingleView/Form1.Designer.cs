@@ -148,6 +148,7 @@
       this.sceneToImageToolStripMenuItem.Name = "sceneToImageToolStripMenuItem";
       this.sceneToImageToolStripMenuItem.Size = new System.Drawing.Size(220, 26);
       this.sceneToImageToolStripMenuItem.Text = "Scene to Image";
+      this.sceneToImageToolStripMenuItem.Click += new System.EventHandler(this.sceneToImageToolStripMenuItem_Click);
       // 
       // menuStrip
       // 
