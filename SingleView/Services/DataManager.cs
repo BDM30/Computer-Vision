@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Drawing;
 using System.Runtime.Remoting.Messaging;
+using DotSpatial.Topology;
+using Point = System.Drawing.Point;
 
 namespace SingleView.Services
 {
@@ -39,6 +40,10 @@ namespace SingleView.Services
     public static DotSpatial.Topology.Point RP2Space;
     public static DotSpatial.Topology.Point RP3Space;
     public static DotSpatial.Topology.Point RP4Space;
+
+    //Current Homography and its Inverse
+    public static DotSpatial.Topology.MatrixD Homography = new MatrixD(3,3);
+    public static DotSpatial.Topology.MatrixD HomographyInversed = new MatrixD(3, 3);
 
     // если не пуста и лежит в радиусе 10px
     private static bool IsGoodPoint(Point i, Point lineEnd)

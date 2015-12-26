@@ -133,6 +133,7 @@
       this.homographyToolStripMenuItem.Name = "homographyToolStripMenuItem";
       this.homographyToolStripMenuItem.Size = new System.Drawing.Size(220, 26);
       this.homographyToolStripMenuItem.Text = "Homography";
+      this.homographyToolStripMenuItem.Click += new System.EventHandler(this.homographyToolStripMenuItem_Click);
       // 
       // alphaToolStripMenuItem
       // 

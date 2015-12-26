@@ -237,5 +237,24 @@ namespace SingleView
         MessageBox.Show(@"error state calc Vanishing Points first!");
       }
     }
+
+    private void homographyToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      if (StateManager.CurrentState == StateManager.ReferencePlaneAllPicked)
+      {
+        
+        var res = calc.CalcHG();
+        listBox.Items.Add("we calced homorgaphy and its inverse");
+        foreach (var s in res)
+        {
+          listBox.Items.Add(s);
+        }
+        StateManager.CurrentState = StateManager.ReferenceHeight0Picked;
+      }
+      else
+      {
+        MessageBox.Show(@"error state pick 4 point in reference plane first!");
+      }
+    }
   }
 }

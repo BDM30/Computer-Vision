@@ -41,10 +41,6 @@
       <HintPath>packages\HashFoo.DotSpatial.Topology.0.11.9.6\lib\net40\DotSpatial.Topology.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="StarMath, Version=2.0.14.1114, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\StarMath.2.0.15.9091\lib\portable-net4+sl5+wp8+win8\StarMath.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -95,9 +91,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="StarMath.XML" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

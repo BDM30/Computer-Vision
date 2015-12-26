@@ -33,6 +33,10 @@ namespace SingleView.Services
 
     public const int ReferencePlaneAllPicked = 20;
 
+    public const int ReferenceHeight0Picked = 21;
+    public const int ReferenceHeight1Picked = 22;
+    public const int ReferenceHeightAllPicked = 23;
+
     public static int CurrentState = 0;
 
   }
