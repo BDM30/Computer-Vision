@@ -46,7 +46,7 @@ namespace SingleView
       Pen xPointPen = new Pen(Color.GreenYellow, 5f);
       Pen yPointPen = new Pen(Color.Blue, 5f);
       Pen zPointPen = new Pen(Color.Yellow, 5f);
-      Pen rhPen = new Pen(Color.White);
+      Pen rhPen = new Pen(Color.White,1f);
 
       /*
       Если уже есть рядом(в радиусе 10 px) годная точка, то мы заменим на нее

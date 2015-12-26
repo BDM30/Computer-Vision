@@ -265,47 +265,131 @@ namespace LibCpp
 		std::cout << "\n SceneCoord: \n" << yVPScn << endl;
 	}
 
+	// input: zVP, 2 RH points + 2 points RH 3d + 2d
+	// out: Proj
+	// return: gammaZ
+	double calcAlphaZ(double f[], double s[])
+	{
+
+		// reading Inversed Homo Matrix
+		std::fstream myfile("homoi.txt", std::ios_base::in);
+		float a;
+		double refHomoS2IArray[9];
+		int i = 0;
+
+		while (myfile >> a)
+		{
+			refHomoS2IArray[i++] = a;
+		}
+
+		Matrix3d refHomoS2I; // сравнить с qt
+		refHomoS2I(0, 0) = refHomoS2IArray[0];
+		refHomoS2I(0, 1) = refHomoS2IArray[1];
+		refHomoS2I(0, 2) = refHomoS2IArray[2];
+		refHomoS2I(1, 0) = refHomoS2IArray[3];
+		refHomoS2I(1, 1) = refHomoS2IArray[4];
+		refHomoS2I(1, 2) = refHomoS2IArray[5];
+		refHomoS2I(2, 0) = refHomoS2IArray[6];
+		refHomoS2I(2, 1) = refHomoS2IArray[7];
+		refHomoS2I(2, 2) = refHomoS2IArray[8];
+
+		imgPoint zVP;
+		zVP.x = f[0];
+		zVP.y = f[1];
+		zVP.w = 1;
+
+		imgPoint RHImage1;
+		RHImage1.x = s[0];
+		RHImage1.y = s[1];
+		RHImage1.w = 1;
+		scnPoint RHScene1;
+		RHScene1.x = s[2];
+		RHScene1.y = s[3];
+		RHScene1.z = s[4];
+		RHScene1.w = 1;
+		connPoint RH1;
+		RH1.imgPt = RHImage1;
+		RH1.scnPt = RHScene1;
+
+		imgPoint RHImage2;
+		RHImage2.x = s[5];
+		RHImage2.y = s[6];
+		RHImage2.w = 1;
+		scnPoint RHScene2;
+		RHScene2.x = s[7];
+		RHScene2.y = s[8];
+		RHScene2.z = s[9];
+		RHScene2.w = 1;
+		connPoint RH2;
+		RH2.imgPt = RHImage2;
+		RH2.scnPt = RHScene2;
+
+		vector<connPoint> RHpoints;
+		RHpoints.push_back(RH1);
+		RHpoints.push_back(RH2);
+
+		// calculation
+		Vector3d P1, P2, O, Vz, b, t;
+		P1 = refHomoS2I.col(0);
+		P2 = refHomoS2I.col(1);
+		O = refHomoS2I.col(2);
+		Vz = imgPointToVector3d(zVP);
+
+		connPoint bConn = RHpoints[1];
+		b = imgPointToVector3d(bConn.imgPt);
+		connPoint tConn = RHpoints[0];
+		t = imgPointToVector3d(tConn.imgPt);
+		double z = bConn.scnPt.z;
+		double deltaz = tConn.scnPt.z - z;
+		cout << "\n P1: \n" << P1 << "\n\n P2: \n" << P2 << "\n\n O: \n" <<
+			O << "\n\n Vz: \n" << Vz << "\n\n b: \n" << b << "\n\n t: \n" << t <<
+			"\n\n z: " << z << " deltaz: " << deltaz << endl;
+
+		int sign = 1;
+		if ((b.cross(t).dot(Vz.cross(t))) > 0) sign = -1;
+		double gammaZ;
+		gammaZ = sign * ((P1.cross(P2)).dot(O)) * (b.cross(t)).norm() / 
+			(deltaz * ((P1.cross(P2)).dot(b)) * (Vz.cross(t)).norm() + z * ((P1.cross(P2)).dot(Vz)) * (b.cross(t)).norm());
+
+		Matrix<double, 3, 4> Proj;
+		cout << "\n gammaZ: \n " << gammaZ << endl;
+		Proj << P1, P2, gammaZ * Vz, O;
+		cout << "\n Projection Matrix from scene to image: \n" << Proj << endl;
+
+		ofstream fout("proj.txt");
+		fout << Proj;
+		fout.close();
+
+		return gammaZ;
+	}
 }
 
-	/*int main()
+int main()
+{
+	double f[] =
 	{
-		
+		463.022,
+		1283.148
+	};
 
-		
-		double f[] =
-		{
-			388.220,
-			324.755,
-			1,
-			1,
-			0,
-			541.450,
-			217.266,
-			0,
-			1,
-			0,
-			250.999,
-			222.983,
-			1,
-			0,
-			0,
-			399.083,
-			140.079,
-			0,
-			0,
-			0
-		};
+	double s[] =
+	{
+		385.809,
+		323.662,
+		1,
+		1,
+		0,
 
-		double s[] =
-		{
-			1337.689,
-			-341.289,
-			-487.049,
-			-324.402
-		};
-		LibCpp::calcHomo(f,s);
+		397.368,
+		473.411,
+		1,
+		1,
+		-1
+	};
 
-		return 0;
-	}*/
+	LibCpp::calcAlphaZ(f,s);
+	return 6;
+}
+
 
 
