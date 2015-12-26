@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using DotSpatial.Topology;
 using SingleView.Services;
 using Point = System.Drawing.Point;
 
@@ -55,10 +54,10 @@ namespace SingleView
       Если уже есть рядом(в радиусе 10 px) годная точка, то мы заменим на нее
       Если нужны мелкие детали, то это лучше убрать.
       Это нужно если вы хотите выбрать ту же самую точку, что выбрали. И без этого шансов нет.
-      Из-за ошибок в вычислениях где-то глубоко автокорекция выключена при Edit -> Points
+      Из-за ошибок в вычислениях где-то глубоко автокорекция выключена при Edit -> Points (Testing)
       */
       Point e = DataManager.FindNearest(new Point(args.X, args.Y));
-      if (e.X == -1 && e.Y == -1 || StateManager.CurrentState == StateManager.PointsCalc)
+      if (e.X == -1 && e.Y == -1)
       {
         e.X = args.X;
         e.Y = args.Y;
@@ -215,8 +214,9 @@ namespace SingleView
           StateManager.CurrentState = StateManager.ReferenceHeightAllPicked;
           break;
         case StateManager.PointsCalc:
-          g.FillEllipse(scenePointBrush, e.X - 3, e.Y - 3, 5, 5);
-          DotSpatial.Topology.Point point = calc.get3Dfrom2D(e.X, e.Y);
+          g.FillEllipse(scenePointBrush, e.X - 5, e.Y - 5, 10, 10);
+          // проверка не тыкнули ли мы уже в известную точку
+          DotSpatial.Topology.Point point = DataManager.IsCalculated(new Point(e.X, e.Y)) ?? calc.get3Dfrom2D(e.X, e.Y);
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ") on image as (" + point.X + ";" +
             point.Y + ";" + point.Z + ") on the scene");
           break;

@@ -60,6 +60,25 @@ namespace SingleView.Services
       return !(lineEnd.X == -1 && lineEnd.Y == -1) &&
              Math.Sqrt((i.X - lineEnd.X)*(i.X - lineEnd.X) + (i.Y - lineEnd.Y)*(i.Y - lineEnd.Y)) < 10;
     }
+
+    // если мы задали эту точку, то как минимум нет смысла ее находить
+    public static DotSpatial.Topology.Point IsCalculated(Point p)
+    {
+      if (RP1Image.X == p.X && RP1Image.Y == p.Y)
+        return RP1Space;
+      if (RP2Image.X == p.X && RP2Image.Y == p.Y)
+        return RP2Space;
+      if (RP3Image.X == p.X && RP3Image.Y == p.Y)
+        return RP3Space;
+      if (RP4Image.X == p.X && RP4Image.Y == p.Y)
+        return RP4Space;
+      if (RH1Image.X == p.X && RH1Image.Y == p.Y)
+        return RH1Space;
+      if (RH2Image.X == p.X && RH2Image.Y == p.Y)
+        return RH2Space;
+      return null;
+    }
+
     public static Point FindNearest(Point i)
     {
       // x points
