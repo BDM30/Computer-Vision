@@ -20,6 +20,9 @@ namespace SingleView.Services
     [DllImport("LibCPP", CallingConvention = CallingConvention.Cdecl)]
     public static extern double calcAlphaZ(double[] f, double[] s);
 
+    [DllImport("LibCPP", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void get3dCoords(double x, double y, double z3d);
+
     // основано на https://kusemanohar.files.wordpress.com/2014/03/vanishingpt_bobcollins.pdf
     public void CalcVP()
     {
@@ -176,6 +179,17 @@ namespace SingleView.Services
       val[2, 2] = homoi[8];
       DataManager.HomographyInversed.Values = val;
       return output;
+    }
+
+    public Point get3Dfrom2D(double x, double y)
+    {
+      // пока только для плоскость Z = 0;
+      // поэтому 
+      double planeZ = 0;
+      get3dCoords(x,y,planeZ);
+      string[] line = System.IO.File.ReadAllLines(@"buffer.txt");
+      string[] xy = line.First().Replace(".",",").Split(' ');
+      return new Point(double.Parse(xy.First()), double.Parse(xy.Last()), planeZ);
     }
   }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using DotSpatial.Topology;
 using SingleView.Services;
+using Point = System.Drawing.Point;
 
 namespace SingleView
 {
@@ -42,6 +44,7 @@ namespace SingleView
       SolidBrush zPointBrush = new SolidBrush(Color.AliceBlue);
       SolidBrush rpPointBrush = new SolidBrush(Color.Gray);
       SolidBrush rhPointBrush = new SolidBrush(Color.Wheat);
+      SolidBrush scenePointBrush = new SolidBrush(Color.Black); 
 
       Pen xPointPen = new Pen(Color.GreenYellow, 5f);
       Pen yPointPen = new Pen(Color.Blue, 5f);
@@ -52,9 +55,10 @@ namespace SingleView
       Если уже есть рядом(в радиусе 10 px) годная точка, то мы заменим на нее
       Если нужны мелкие детали, то это лучше убрать.
       Это нужно если вы хотите выбрать ту же самую точку, что выбрали. И без этого шансов нет.
+      Из-за ошибок в вычислениях где-то глубоко автокорекция выключена при Edit -> Points
       */
       Point e = DataManager.FindNearest(new Point(args.X, args.Y));
-      if (e.X == -1 && e.Y == -1)
+      if (e.X == -1 && e.Y == -1 || StateManager.CurrentState == StateManager.PointsCalc)
       {
         e.X = args.X;
         e.Y = args.Y;
@@ -210,6 +214,12 @@ namespace SingleView
                             DataManager.RH2Space.Y + ";" + DataManager.RH2Space.Z +  ") in space");
           StateManager.CurrentState = StateManager.ReferenceHeightAllPicked;
           break;
+        case StateManager.PointsCalc:
+          g.FillEllipse(scenePointBrush, e.X - 3, e.Y - 3, 5, 5);
+          DotSpatial.Topology.Point point = calc.get3Dfrom2D(e.X, e.Y);
+          listBox.Items.Add("picked (" + e.X + ";" + e.Y + ") on image as (" + point.X + ";" +
+            point.Y + ";" + point.Z + ") on the scene");
+          break;
       }
     }
 
@@ -290,6 +300,18 @@ namespace SingleView
       else
       {
         MessageBox.Show(@"error state pick 2 reference height point first!");
+      }
+    }
+
+    private void pointsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      if (StateManager.CurrentState == StateManager.AlphaZCalced)
+      {
+        StateManager.CurrentState = StateManager.PointsCalc;
+      }
+      else
+      {
+        MessageBox.Show(@"error state calc projection matrix first!");
       }
     }
   }

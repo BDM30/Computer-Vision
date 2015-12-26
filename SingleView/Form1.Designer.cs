@@ -109,6 +109,7 @@
       this.pointsToolStripMenuItem.Name = "pointsToolStripMenuItem";
       this.pointsToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
       this.pointsToolStripMenuItem.Text = "Points";
+      this.pointsToolStripMenuItem.Click += new System.EventHandler(this.pointsToolStripMenuItem_Click);
       // 
       // calculationToolStripMenuItem
       // 

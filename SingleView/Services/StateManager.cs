@@ -38,6 +38,7 @@ namespace SingleView.Services
     public const int ReferenceHeightAllPicked = 23;
 
     public const int AlphaZCalced = 24;
+    public const int PointsCalc = 25;
 
     public static int CurrentState = 0;
 

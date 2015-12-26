@@ -49,9 +49,7 @@ namespace LibCpp
 
 	// first array 20 values: 4 points: 3d scene + 2d image
 	// second array 4 values: 2 vanishing points
-
 	// out homo.txt and homoi.txt (inverse)
-
 	void calcHomo(double f[], double s[])
 	{
 		imgPoint zeroImg;
@@ -265,7 +263,7 @@ namespace LibCpp
 		std::cout << "\n SceneCoord: \n" << yVPScn << endl;
 	}
 
-	void get3dCoords(double x, double y)
+	void get3dCoords(double x, double y, double z3d)
 	{
 		connPoint newPollPt;
 		newPollPt.imgPt.x = x;
@@ -284,7 +282,7 @@ namespace LibCpp
 			refHomoS2Array[i++] = a;
 		}
 
-		Matrix3d refHomoI2S; // ?? ?­??? ? qt
+		Matrix3d refHomoI2S;
 		refHomoI2S(0, 0) = refHomoS2Array[0];
 		refHomoI2S(0, 1) = refHomoS2Array[1];
 		refHomoI2S(0, 2) = refHomoS2Array[2];
@@ -295,16 +293,23 @@ namespace LibCpp
 		refHomoI2S(2, 1) = refHomoS2Array[7];
 		refHomoI2S(2, 2) = refHomoS2Array[8];
 
-		newPollPt.homoMatrixEig3 = refHomoI2S; // обычная гомография
-		newPollPt.scnPt.z = 0;
+		newPollPt.homoMatrixEig3 = refHomoI2S;
+		if (z3d != -1)
+			newPollPt.scnPt.z = z3d;
+		else
+			newPollPt.scnPt.z = 0;
+		
 		Vector3d scnCord = newPollPt.homoMatrixEig3 * imgPointToVector3d(newPollPt.imgPt);
 		scnCord /= scnCord(2);
 		newPollPt.scnPt.x = scnCord(0);
 		newPollPt.scnPt.y = scnCord(1);
 
-		cout << "Scene Coordinates: (" << newPollPt.scnPt.x << ", " << newPollPt.scnPt.y << ", " << 0 << ")" << endl;
-		/*PtPool.push_back(*newPollPt);
-		poolCache = newPollPt;*/
+		cout << "Scene Coordinates: (" << newPollPt.scnPt.x << ", " << newPollPt.scnPt.y << ", " << newPollPt.scnPt.z << ")" << endl;
+
+		ofstream fout("buffer.txt");
+		fout << newPollPt.scnPt.x << " " << newPollPt.scnPt.y;
+		fout.close();
+
 	}
 
 	// input: zVP, 2 RH points + 2 points RH 3d + 2d
@@ -406,8 +411,8 @@ namespace LibCpp
 	}
 }
 
-int main()
-{
-	LibCpp::get3dCoords(388, 323);
-	return 0;
-}
+//int main()
+//{
+//	LibCpp::get3dCoords(388, 323);
+//	return 0;
+//}
