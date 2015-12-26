@@ -41,10 +41,12 @@ namespace SingleView
       SolidBrush yPointBrush = new SolidBrush(Color.Bisque);
       SolidBrush zPointBrush = new SolidBrush(Color.AliceBlue);
       SolidBrush rpPointBrush = new SolidBrush(Color.Gray);
+      SolidBrush rhPointBrush = new SolidBrush(Color.Wheat);
 
       Pen xPointPen = new Pen(Color.GreenYellow, 5f);
       Pen yPointPen = new Pen(Color.Blue, 5f);
       Pen zPointPen = new Pen(Color.Yellow, 5f);
+      Pen rhPen = new Pen(Color.White);
 
       /*
       Если уже есть рядом(в радиусе 10 px) годная точка, то мы заменим на нее
@@ -163,34 +165,50 @@ namespace SingleView
         case StateManager.ReferencePlane0Picked:
           g.FillEllipse(rpPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.RP1Image = new Point(e.X, e.Y);
-          DataManager.RP1Space = PointGetter3D.ShowDialog();
+          DataManager.RP1Space = PointGetter3D.ShowDialog(limitedZ:true);
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ") on image as (" + DataManager.RP1Space.X + ";" +
-                            DataManager.RP1Space.Y + ") in space");
+                            DataManager.RP1Space.Y + ";" + DataManager.RP1Space.Z + ") in space");
           StateManager.CurrentState = StateManager.ReferencePlane1Picked;
           break;
         case StateManager.ReferencePlane1Picked:
           g.FillEllipse(rpPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.RP2Image = new Point(e.X, e.Y);
-          DataManager.RP2Space = PointGetter3D.ShowDialog();
+          DataManager.RP2Space = PointGetter3D.ShowDialog(limitedZ: true);
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ") on image as (" + DataManager.RP2Space.X + ";" +
-                            DataManager.RP2Space.Y + ") in space");
+                            DataManager.RP2Space.Y + ";" + DataManager.RP2Space.Z + ") in space");
           StateManager.CurrentState = StateManager.ReferencePlane2Picked;
           break;
         case StateManager.ReferencePlane2Picked:
           g.FillEllipse(rpPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.RP3Image = new Point(e.X, e.Y);
-          DataManager.RP3Space = PointGetter3D.ShowDialog();
+          DataManager.RP3Space = PointGetter3D.ShowDialog(limitedZ: true);
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ") on image as (" + DataManager.RP3Space.X + ";" +
-                            DataManager.RP3Space.Y + ") in space");
+                            DataManager.RP3Space.Y + ";" + DataManager.RP3Space.Z + ") in space");
           StateManager.CurrentState = StateManager.ReferencePlane3Picked;
           break;
         case StateManager.ReferencePlane3Picked:
           g.FillEllipse(rpPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.RP4Image = new Point(e.X, e.Y);
-          DataManager.RP4Space = PointGetter3D.ShowDialog();
+          DataManager.RP4Space = PointGetter3D.ShowDialog(limitedZ: true);
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ") on image as (" + DataManager.RP4Space.X + ";" +
-                            DataManager.RP4Space.Y + ") in space");
+                            DataManager.RP4Space.Y + ";" + DataManager.RP4Space.Z + ") in space");
           StateManager.CurrentState = StateManager.ReferencePlaneAllPicked;
+          break;
+        case StateManager.ReferenceHeight0Picked:
+          g.FillEllipse(rhPointBrush, e.X - 5, e.Y - 5, 10, 10);
+          DataManager.RH1Image = new Point(e.X, e.Y);
+          DataManager.RH1Space = PointGetter3D.ShowDialog(limitedZ: false);
+          listBox.Items.Add("picked (" + e.X + ";" + e.Y + ") on image as (" + DataManager.RH1Space.X + ";" +
+                            DataManager.RH1Space.Y + ";" + DataManager.RH1Space.Z + ") in space");
+          StateManager.CurrentState = StateManager.ReferenceHeight1Picked;
+          break;
+        case StateManager.ReferenceHeight1Picked:
+          g.FillEllipse(rhPointBrush, e.X - 5, e.Y - 5, 10, 10);
+          DataManager.RH2Image = new Point(e.X, e.Y);
+          DataManager.RH2Space = PointGetter3D.ShowDialog(limitedZ: false);
+          listBox.Items.Add("picked (" + e.X + ";" + e.Y + ") on image as (" + DataManager.RH2Space.X + ";" +
+                            DataManager.RH2Space.Y + ";" + DataManager.RH2Space.Z +  ") in space");
+          StateManager.CurrentState = StateManager.ReferenceHeightAllPicked;
           break;
       }
     }

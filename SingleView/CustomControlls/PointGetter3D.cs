@@ -6,7 +6,7 @@ public static class PointGetter3D
 {
   private static bool _warningShown = false;
 
-  public static Point ShowDialog()
+  public static Point ShowDialog(bool limitedZ)
   {
     if (!_warningShown)
     {
@@ -32,9 +32,11 @@ public static class PointGetter3D
 
     Label ZtextLabel = new Label() {Left = 80, Top = 95, Text = "Z"};
     TextBox ZtextBox = new TextBox() {Left = 80, Top = 110, Width = 60};
-    ZtextBox.Text = "0";
-    ZtextBox.BackColor = Color.Gray;
-
+    if (limitedZ)
+    {
+      ZtextBox.Text = "0";
+      ZtextBox.BackColor = Color.Gray;
+    }
     Button confirmation = new Button() {Text = "Ok", Left = 80, Width = 80, Top = 140, DialogResult = DialogResult.OK};
     confirmation.Click += (sender, e) => { prompt.Close(); };
 

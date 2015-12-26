@@ -45,6 +45,12 @@ namespace SingleView.Services
     public static DotSpatial.Topology.MatrixD Homography = new MatrixD(3,3);
     public static DotSpatial.Topology.MatrixD HomographyInversed = new MatrixD(3, 3);
 
+    // Reference Height Points
+    public static Point RH1Image = new Point(-1, -1);
+    public static Point RH2Image = new Point(-1, -1);
+    public static DotSpatial.Topology.Point RH1Space;
+    public static DotSpatial.Topology.Point RH2Space;
+
     // если не пуста и лежит в радиусе 10px
     private static bool IsGoodPoint(Point i, Point lineEnd)
     {
