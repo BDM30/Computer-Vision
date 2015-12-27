@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using DotSpatial.Topology;
 using System.Runtime.InteropServices;
 
@@ -33,50 +32,27 @@ namespace SingleView.Services
     // основано на https://kusemanohar.files.wordpress.com/2014/03/vanishingpt_bobcollins.pdf
     public void CalcVP()
     {
+      //for x lines
 
-      // moq test
-      // for x lines
-      DataManager.XVP = CalcVP(
-        new Vector(380, 257, 1),
-        new Vector(534, 171, 1),
-        new Vector(395, 370, 1),
-        new Vector(518, 287, 1));
+     DataManager.XVP = CalcVP(
+       new Vector(DataManager.X11.X, DataManager.X11.Y, 1),
+       new Vector(DataManager.X12.X, DataManager.X12.Y, 1),
+       new Vector(DataManager.X21.X, DataManager.X21.Y, 1),
+       new Vector(DataManager.X22.X, DataManager.X22.Y, 1));
 
-      // for y lines
-      DataManager.YVP = CalcVP(
-        new Vector(380, 257, 1),
-        new Vector(246, 175, 1),
-        new Vector(395, 370, 1),
-        new Vector(275, 287, 1));
+     // for y lines
+     DataManager.YVP = CalcVP(
+       new Vector(DataManager.Y11.X, DataManager.Y11.Y, 1),
+       new Vector(DataManager.Y12.X, DataManager.Y12.Y, 1),
+       new Vector(DataManager.Y21.X, DataManager.Y21.Y, 1),
+       new Vector(DataManager.Y22.X, DataManager.Y22.Y, 1));
 
       // for z lines
       DataManager.ZVP = CalcVP(
-        new Vector(380, 257, 1),
-        new Vector(395, 370, 1),
-        new Vector(246, 175, 1),
-        new Vector(275, 287, 1));
-
-
-      // for x lines
-      //DataManager.XVP = CalcVP(
-      //  new Vector(DataManager.X11.X, DataManager.X11.Y, 1),
-      //  new Vector(DataManager.X12.X, DataManager.X12.Y, 1),
-      //  new Vector(DataManager.X21.X, DataManager.X21.Y, 1),
-      //  new Vector(DataManager.X22.X, DataManager.X22.Y, 1));
-
-      //// for y lines
-      //DataManager.YVP = CalcVP(
-      //  new Vector(DataManager.Y11.X, DataManager.Y11.Y, 1),
-      //  new Vector(DataManager.Y12.X, DataManager.Y12.Y, 1),
-      //  new Vector(DataManager.Y21.X, DataManager.Y21.Y, 1),
-      //  new Vector(DataManager.Y22.X, DataManager.Y22.Y, 1));
-
-      //// for z lines
-      //DataManager.ZVP = CalcVP(
-      //  new Vector(DataManager.Z11.X, DataManager.Z11.Y, 1),
-      //  new Vector(DataManager.Z12.X, DataManager.Z12.Y, 1),
-      //  new Vector(DataManager.Z21.X, DataManager.Z21.Y, 1),
-      //  new Vector(DataManager.Z22.X, DataManager.Z22.Y, 1));
+        new Vector(DataManager.Z11.X, DataManager.Z11.Y, 1),
+        new Vector(DataManager.Z12.X, DataManager.Z12.Y, 1),
+        new Vector(DataManager.Z21.X, DataManager.Z21.Y, 1),
+        new Vector(DataManager.Z22.X, DataManager.Z22.Y, 1));
     }
 
     public List<string> CalcAlphaZ()
@@ -88,37 +64,20 @@ namespace SingleView.Services
         DataManager.ZVP.Y
       };
 
-      // moq
       double[] s =
       {
-        380,
-        257,
-        1,
-        1,
-        0,
+        DataManager.RH1Image.X,
+        DataManager.RH1Image.Y,
+        DataManager.RH1Space.X,
+        DataManager.RH1Space.Y,
+        DataManager.RH1Space.Z,
 
-        395,
-        370,
-        1,
-        1,
-        -1
+        DataManager.RH2Image.X,
+        DataManager.RH2Image.Y,
+        DataManager.RH2Space.X,
+        DataManager.RH2Space.Y,
+        DataManager.RH2Space.Z
       };
-
-      // orginal
-      //double[] s =
-      //{
-      //  DataManager.RH1Image.X,
-      //  DataManager.RH1Image.Y,
-      //  DataManager.RH1Space.X,
-      //  DataManager.RH1Space.Y,
-      //  DataManager.RH1Space.Z,
-
-      //  DataManager.RH2Image.X,
-      //  DataManager.RH2Image.Y,
-      //  DataManager.RH2Space.X,
-      //  DataManager.RH2Space.Y,
-      //  DataManager.RH2Space.Z
-      //};
 
 
       DataManager.AlphaZ = calcAlphaZ(f, s);
@@ -140,78 +99,40 @@ namespace SingleView.Services
 
       // next step is to write the results from the files and to save their values in DataManager.
 
-      // moq
       double[] f =
     {
-          380,
-          257,
-          1,
-          1,
-          0,
+        DataManager.RP1Image.X,
+        DataManager.RP1Image.Y,
+        DataManager.RP1Space.X,
+        DataManager.RP1Space.Y,
+        DataManager.RP1Space.Z,
 
-          534,
-          171,
-          0,
-          1,
-          0,
+        DataManager.RP2Image.X,
+        DataManager.RP2Image.Y,
+        DataManager.RP2Space.X,
+        DataManager.RP2Space.Y,
+        DataManager.RP2Space.Z,
 
-          392,
-          112,
-          0,
-          0,
-          0,
+        DataManager.RP3Image.X,
+        DataManager.RP3Image.Y,
+        DataManager.RP3Space.X,
+        DataManager.RP3Space.Y,
+        DataManager.RP3Space.Z,
 
-          246,
-          175,
-          1,
-          0,
-          0
-        };
+        DataManager.RP4Image.X,
+        DataManager.RP4Image.Y,
+        DataManager.RP4Space.X,
+        DataManager.RP4Space.Y,
+        DataManager.RP4Space.Z,
+      };
 
       double[] s =
       {
-          DataManager.XVP.X,
-          DataManager.XVP.Y,
-          DataManager.YVP.X,
-          DataManager.YVP.Y
-        };
-
-
-      // original
-    //  double[] f =
-    //{
-    //    DataManager.RP1Image.X,
-    //    DataManager.RP1Image.Y,
-    //    DataManager.RP1Space.X,
-    //    DataManager.RP1Space.Y,
-    //    DataManager.RP1Space.Z,
-
-    //    DataManager.RP2Image.X,
-    //    DataManager.RP2Image.Y,
-    //    DataManager.RP2Space.X,
-    //    DataManager.RP2Space.Y,
-    //    DataManager.RP2Space.Z,
-
-    //    DataManager.RP3Image.X,
-    //    DataManager.RP3Image.Y,
-    //    DataManager.RP3Space.X,
-    //    DataManager.RP3Space.Y,
-    //    DataManager.RP3Space.Z,
-
-    //    DataManager.RP4Image.X,
-    //    DataManager.RP4Image.Y,
-    //    DataManager.RP4Space.X,
-    //    DataManager.RP4Space.Y,
-    //    DataManager.RP4Space.Z,
-    //  };
-
-    //  double[] s =
-    //  {
-    //    DataManager.XVP.X,
-    //    DataManager.XVP.Y,
-    //    DataManager.YVP.X,
-    //    DataManager.YVP.Y,
-    //  };
+        DataManager.XVP.X,
+        DataManager.XVP.Y,
+        DataManager.YVP.X,
+        DataManager.YVP.Y,
+      };
       calcHomo(f, s);
 
       output.Add("homography matrix:");
