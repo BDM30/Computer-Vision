@@ -40,6 +40,9 @@ namespace SingleView.Services
     public const int AlphaZCalced = 24;
     public const int PointsCalc = 25;
 
+    public const int PlaneSwitch = 26;
+    public const int PlaneSwitchPointPicked = 27;
+
     public static int CurrentState = 0;
 
   }

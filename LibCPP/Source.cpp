@@ -294,10 +294,7 @@ namespace LibCpp
 		refHomoI2S(2, 2) = refHomoS2Array[8];
 
 		newPollPt.homoMatrixEig3 = refHomoI2S;
-		if (z3d != -1)
-			newPollPt.scnPt.z = z3d;
-		else
-			newPollPt.scnPt.z = 0;
+		newPollPt.scnPt.z = z3d;
 		
 		Vector3d scnCord = newPollPt.homoMatrixEig3 * imgPointToVector3d(newPollPt.imgPt);
 		scnCord /= scnCord(2);
@@ -329,7 +326,7 @@ namespace LibCpp
 			refHomoS2IArray[i++] = a;
 		}
 
-		Matrix3d refHomoS2I; // ??�?�??? ? qt
+		Matrix3d refHomoS2I; // ?? ?­??? ? qt
 		refHomoS2I(0, 0) = refHomoS2IArray[0];
 		refHomoS2I(0, 1) = refHomoS2IArray[1];
 		refHomoS2I(0, 2) = refHomoS2IArray[2];
@@ -419,7 +416,7 @@ namespace LibCpp
 		scnCord(1) = y;
 		scnCord(2) = z;
 		scnCord(3) = 1;
-		// Todo: ������� ������� P �� �����
+		// Todo: ñ÷èòàòü ìàòðèöó P èç ôàéëà
 
 		// reading P
 		std::fstream myfile("proj.txt", std::ios_base::in);
@@ -455,10 +452,88 @@ namespace LibCpp
 		fout.close();
 	}
 
+	// input (x,y) 3D coords of previous point; zVP; alphaZ
+	// return z coordinate of new point
+	// out: buffer.txt for coords and 
+	// функция меняет матрицу гомографии.
+	double get3dCoordsSwitchPlane(double x, double y, double px, double py, double a, double zx, double zy)
+	{
+		connPoint newPollPt;
+		newPollPt.imgPt.x = x;
+		newPollPt.imgPt.y = y;
+		newPollPt.imgPt.w = 1;
+		newPollPt.scnPt.w = 1;
+		newPollPt.scnPt.x = px;
+		newPollPt.scnPt.y = py;
+
+		imgPoint zVP;
+		zVP.x = zx;
+		zVP.y = zy;
+		zVP.w = 1;
+
+		double gammaZ = a;
+
+		Vector3d P1, P2, O, Vz, b, bscn, t;
+
+		// reading Inversed Homo Matrix
+		std::fstream myfile("homoi.txt", std::ios_base::in);
+		float aa;
+		double refHomoS2IArray[9];
+		int i = 0;
+
+		while (myfile >> aa)
+		{
+			refHomoS2IArray[i++] = aa;
+		}
+
+		Matrix3d refHomoS2I;
+		refHomoS2I(0, 0) = refHomoS2IArray[0];
+		refHomoS2I(0, 1) = refHomoS2IArray[1];
+		refHomoS2I(0, 2) = refHomoS2IArray[2];
+		refHomoS2I(1, 0) = refHomoS2IArray[3];
+		refHomoS2I(1, 1) = refHomoS2IArray[4];
+		refHomoS2I(1, 2) = refHomoS2IArray[5];
+		refHomoS2I(2, 0) = refHomoS2IArray[6];
+		refHomoS2I(2, 1) = refHomoS2IArray[7];
+		refHomoS2I(2, 2) = refHomoS2IArray[8];
+
+		P1 = refHomoS2I.col(0);
+		P2 = refHomoS2I.col(1);
+		O = refHomoS2I.col(2);
+		Vz = imgPointToVector3d(zVP);
+		bscn << newPollPt.scnPt.x, newPollPt.scnPt.y, 1;
+		b = refHomoS2I * bscn;
+		b /= b(2);
+		t = imgPointToVector3d(newPollPt.imgPt);
+		int sign = 1;
+		if ((b.cross(t).dot(Vz.cross(t))) > 0) sign = -1;
+		double z;
+
+		z = sign * ((P1.cross(P2)).dot(O)) * (b.cross(t)).norm() / (gammaZ * ((P1.cross(P2)).dot(b)) * (Vz.cross(t)).norm());
+
+		newPollPt.scnPt.z = z;
+
+		Matrix3d P;
+		P << P1, P2, O + gammaZ * Vz * z;
+		Matrix3d zHomo = P.inverse();
+		newPollPt.homoMatrixEig3 = zHomo; // типа новая гомография?
+
+		cout << newPollPt.homoMatrixEig3 << endl;
+		cout << newPollPt.scnPt.z << endl;
+
+		ofstream fout("homo.txt");
+		fout << newPollPt.homoMatrixEig3;
+		fout.close();
+		fout.open("homoi.txt");
+		fout << newPollPt.homoMatrixEig3.inverse();
+		fout.close();
+		return z;
+	}
+
 }
 
 //int main()
 //{
-//	LibCpp::get2dCoords(1, 1, 0);
+//	LibCpp::get3dCoordsSwitchPlane(395, 367, 1, 1, -0.08894, 533.426, 1246.416);
 //	return 0;
 //}

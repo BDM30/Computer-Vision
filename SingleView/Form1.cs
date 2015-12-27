@@ -43,12 +43,12 @@ namespace SingleView
       SolidBrush zPointBrush = new SolidBrush(Color.AliceBlue);
       SolidBrush rpPointBrush = new SolidBrush(Color.Gray);
       SolidBrush rhPointBrush = new SolidBrush(Color.Wheat);
-      SolidBrush scenePointBrush = new SolidBrush(Color.Black); 
+      SolidBrush scenePointBrush = new SolidBrush(Color.Black);
+      SolidBrush switchPlaneBrush = new SolidBrush(Color.White);
 
       Pen xPointPen = new Pen(Color.GreenYellow, 5f);
       Pen yPointPen = new Pen(Color.Blue, 5f);
       Pen zPointPen = new Pen(Color.Yellow, 5f);
-      Pen rhPen = new Pen(Color.White,1f);
 
       /*
       Если уже есть рядом(в радиусе 10 px) годная точка, то мы заменим на нее
@@ -220,6 +220,27 @@ namespace SingleView
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ") on image as (" + point.X + ";" +
             point.Y + ";" + point.Z + ") on the scene");
           break;
+        case StateManager.PlaneSwitch:
+          DotSpatial.Topology.Point pointps = DataManager.IsCalculated(new Point(e.X, e.Y)) ?? calc.get3Dfrom2D(e.X, e.Y);
+          listBox.Items.Add("picked (" + e.X + ";" + e.Y + ") on image as (" + pointps.X + ";" +
+            pointps.Y + ";" + pointps.Z + ") on the scene");
+          listBox.Items.Add("picked (" + e.X + ";" + e.Y + ") on image as point on current plane");
+          g.FillEllipse(switchPlaneBrush, e.X - 5, e.Y - 5, 10, 10);
+          DataManager.CurrentPlanePoint = pointps;
+          StateManager.CurrentState = StateManager.PlaneSwitchPointPicked;
+          MessageBox.Show(@"now pick up a point on other plane with same X,Y coordinates!");
+          break;
+        case StateManager.PlaneSwitchPointPicked:
+          g.FillEllipse(switchPlaneBrush, e.X - 5, e.Y - 5, 10, 10);
+          DotSpatial.Topology.Point pointPS = calc.get3dCoordsSwitchPlane(new Point(e.X, e.Y));
+          // проверка не тыкнули ли мы уже в известную точку
+          DotSpatial.Topology.Point pointSuspect = DataManager.IsCalculated(new Point(e.X, e.Y));
+          if (pointSuspect != null)
+            pointPS = pointSuspect;
+          listBox.Items.Add("picked (" + e.X + ";" + e.Y + ") on image as (" + pointPS.X + ";" +
+            pointPS.Y + ";" + pointPS.Z + ") on the scene");
+          StateManager.CurrentState = StateManager.PointsCalc;
+          break;
       }
     }
 
@@ -327,6 +348,19 @@ namespace SingleView
         g.FillEllipse(pointBrush, point2D.X - 5, point2D.Y - 5, 10, 10);
         listBox.Items.Add("picked (" + point3D.X + ";" + point3D.Y + ";" + point3D.Z + ") on scene as (" + point2D.X + ";" +
                             point2D.Y + " ) in picture");
+      }
+      else
+      {
+        MessageBox.Show(@"error state calc projection matrix first!");
+      }
+    }
+
+    private void switchPlaneToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      if (StateManager.CurrentState == StateManager.PointsCalc)
+      {
+        MessageBox.Show(@"select any point in current plane!");
+        StateManager.CurrentState = StateManager.PlaneSwitch;
       }
       else
       {

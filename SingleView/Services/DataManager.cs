@@ -54,6 +54,10 @@ namespace SingleView.Services
     // alpha Z
     public static double AlphaZ;
 
+    // Switch Plane
+    public static DotSpatial.Topology.Point CurrentPlanePoint;
+    public static double CurrentZ = 0;
+
     // если не пуста и лежит в радиусе 10px
     private static bool IsGoodPoint(Point i, Point lineEnd)
     {

@@ -44,6 +44,7 @@
       this.menuStrip = new System.Windows.Forms.MenuStrip();
       this.listBox = new System.Windows.Forms.ListBox();
       this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+      this.switchPlaneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
       this.menuStrip.SuspendLayout();
       this.SuspendLayout();
@@ -79,7 +80,8 @@
             this.xLinesToolStripMenuItem,
             this.referencePlaneToolStripMenuItem,
             this.referenceDirectionToolStripMenuItem,
-            this.pointsToolStripMenuItem});
+            this.pointsToolStripMenuItem,
+            this.switchPlaneToolStripMenuItem});
       this.editToolStripMenuItem.Name = "editToolStripMenuItem";
       this.editToolStripMenuItem.Size = new System.Drawing.Size(47, 24);
       this.editToolStripMenuItem.Text = "Edit";
@@ -176,6 +178,13 @@
       // 
       this.openFileDialog.FileName = "openFileDialog";
       // 
+      // switchPlaneToolStripMenuItem
+      // 
+      this.switchPlaneToolStripMenuItem.Name = "switchPlaneToolStripMenuItem";
+      this.switchPlaneToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
+      this.switchPlaneToolStripMenuItem.Text = "Switch Plane";
+      this.switchPlaneToolStripMenuItem.Click += new System.EventHandler(this.switchPlaneToolStripMenuItem_Click);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -214,6 +223,7 @@
     private System.Windows.Forms.MenuStrip menuStrip;
     private System.Windows.Forms.OpenFileDialog openFileDialog;
     private System.Windows.Forms.ToolStripMenuItem xVPointToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem switchPlaneToolStripMenuItem;
   }
 }
 
