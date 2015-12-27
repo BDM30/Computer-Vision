@@ -10,6 +10,10 @@ namespace SingleView
   {
     private Calculator calc = new Calculator();
 
+    // for moq only
+    private bool pointWas1 = false;
+    private bool pointWas2 = false;
+
     public Form1()
     {
       InitializeComponent();
@@ -72,12 +76,20 @@ namespace SingleView
       {
         // X lines
         case StateManager.PickXLineFirst0PointsPicked:
+          //moq
+          e.X = 380;
+          e.Y = 257;
+          //
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ")");
           g.FillEllipse(xPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.X11 = new Point(e.X, e.Y);
           StateManager.CurrentState = StateManager.PickXLineFirst1PointsPicked;
           break;
         case StateManager.PickXLineFirst1PointsPicked:
+          //moq
+          e.X = 534;
+          e.Y = 171;
+          //
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ")");
           g.FillEllipse(xPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.X12 = new Point(e.X, e.Y);
@@ -87,12 +99,20 @@ namespace SingleView
           listBox.Items.Add("next step is pick up points of the second XLine");
           break;
         case StateManager.PickXLineSecond0PointsPicked:
+          //moq
+          e.X = 395;
+          e.Y = 370;
+          //
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ")");
           g.FillEllipse(xPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.X21 = new Point(e.X, e.Y);
           StateManager.CurrentState = StateManager.PickXLineSecond1PointsPicked;
           break;
         case StateManager.PickXLineSecond1PointsPicked:
+          //moq
+          e.X = 518;
+          e.Y = 287;
+          //
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ")");
           g.FillEllipse(xPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.X22 = new Point(e.X, e.Y);
@@ -103,12 +123,20 @@ namespace SingleView
           break;
         // Y lines
         case StateManager.PickYLineFirst0PointsPicked:
+          //moq
+          e.X = 380;
+          e.Y = 257;
+          //
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ")");
           g.FillEllipse(yPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.Y11 = new Point(e.X, e.Y);
           StateManager.CurrentState = StateManager.PickYLineFirst1PointsPicked;
           break;
         case StateManager.PickYLineFirst1PointsPicked:
+          //moq
+          e.X = 246;
+          e.Y = 175;
+          //
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ")");
           g.FillEllipse(yPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.Y12 = new Point(e.X, e.Y);
@@ -118,12 +146,20 @@ namespace SingleView
           listBox.Items.Add("next step is pick up points of the second YLine");
           break;
         case StateManager.PickYLineSecond0PointsPicked:
+          //moq
+          e.X = 395;
+          e.Y = 370;
+          //
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ")");
           g.FillEllipse(yPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.Y21 = new Point(e.X, e.Y);
           StateManager.CurrentState = StateManager.PickYLineSecond1PointsPicked;
           break;
         case StateManager.PickYLineSecond1PointsPicked:
+          //moq
+          e.X = 275;
+          e.Y = 287;
+          //
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ")");
           g.FillEllipse(yPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.Y22 = new Point(e.X, e.Y);
@@ -134,12 +170,20 @@ namespace SingleView
           break;
         // Z lines
         case StateManager.PickZLineFirst0PointsPicked:
+          //moq
+          e.X = 380;
+          e.Y = 257;
+          //
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ")");
           g.FillEllipse(zPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.Z11 = new Point(e.X, e.Y);
           StateManager.CurrentState = StateManager.PickZLineFirst1PointsPicked;
           break;
         case StateManager.PickZLineFirst1PointsPicked:
+          //moq
+          e.X = 395;
+          e.Y = 370;
+          //
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ")");
           g.FillEllipse(zPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.Z12 = new Point(e.X, e.Y);
@@ -149,12 +193,20 @@ namespace SingleView
           listBox.Items.Add("next step is pick up points of the second ZLine");
           break;
         case StateManager.PickZLineSecond0PointsPicked:
+          //moq
+          e.X = 246;
+          e.Y = 175;
+          //
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ")");
           g.FillEllipse(zPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.Z21 = new Point(e.X, e.Y);
           StateManager.CurrentState = StateManager.PickZLineSecond1PointsPicked;
           break;
         case StateManager.PickZLineSecond1PointsPicked:
+          //moq
+          e.X = 275;
+          e.Y = 287;
+          //
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ")");
           g.FillEllipse(zPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.Z22 = new Point(e.X, e.Y);
@@ -166,7 +218,11 @@ namespace SingleView
 
         // picking point for Reference Plane
         case StateManager.ReferencePlane0Picked:
+          // moq
+          e.X = 380;
+          e.Y = 257;
           g.FillEllipse(rpPointBrush, e.X - 5, e.Y - 5, 10, 10);
+          //
           DataManager.RP1Image = new Point(e.X, e.Y);
           DataManager.RP1Space = PointGetter3D.ShowDialog(limitedZ:true);
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ") on image as (" + DataManager.RP1Space.X + ";" +
@@ -174,6 +230,10 @@ namespace SingleView
           StateManager.CurrentState = StateManager.ReferencePlane1Picked;
           break;
         case StateManager.ReferencePlane1Picked:
+          // moq
+          e.X = 534;
+          e.Y = 171;
+          //
           g.FillEllipse(rpPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.RP2Image = new Point(e.X, e.Y);
           DataManager.RP2Space = PointGetter3D.ShowDialog(limitedZ: true);
@@ -182,6 +242,10 @@ namespace SingleView
           StateManager.CurrentState = StateManager.ReferencePlane2Picked;
           break;
         case StateManager.ReferencePlane2Picked:
+          // moq
+          e.X = 392;
+          e.Y = 112;
+          //
           g.FillEllipse(rpPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.RP3Image = new Point(e.X, e.Y);
           DataManager.RP3Space = PointGetter3D.ShowDialog(limitedZ: true);
@@ -190,6 +254,10 @@ namespace SingleView
           StateManager.CurrentState = StateManager.ReferencePlane3Picked;
           break;
         case StateManager.ReferencePlane3Picked:
+          // moq
+          e.X = 246;
+          e.Y = 175;
+          //
           g.FillEllipse(rpPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.RP4Image = new Point(e.X, e.Y);
           DataManager.RP4Space = PointGetter3D.ShowDialog(limitedZ: true);
@@ -198,6 +266,10 @@ namespace SingleView
           StateManager.CurrentState = StateManager.ReferencePlaneAllPicked;
           break;
         case StateManager.ReferenceHeight0Picked:
+          // moq
+          e.X = 380;
+          e.Y = 257;
+          //
           g.FillEllipse(rhPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.RH1Image = new Point(e.X, e.Y);
           DataManager.RH1Space = PointGetter3D.ShowDialog(limitedZ: false);
@@ -206,6 +278,10 @@ namespace SingleView
           StateManager.CurrentState = StateManager.ReferenceHeight1Picked;
           break;
         case StateManager.ReferenceHeight1Picked:
+          // moq
+          e.X = 395;
+          e.Y = 370;
+          //
           g.FillEllipse(rhPointBrush, e.X - 5, e.Y - 5, 10, 10);
           DataManager.RH2Image = new Point(e.X, e.Y);
           DataManager.RH2Space = PointGetter3D.ShowDialog(limitedZ: false);
@@ -214,6 +290,10 @@ namespace SingleView
           StateManager.CurrentState = StateManager.ReferenceHeightAllPicked;
           break;
         case StateManager.PointsCalc:
+          // moq only
+          e.X = 184;
+          e.Y = 215;
+          //
           g.FillEllipse(scenePointBrush, e.X - 5, e.Y - 5, 10, 10);
           // проверка не тыкнули ли мы уже в известную точку
           DotSpatial.Topology.Point point = DataManager.IsCalculated(new Point(e.X, e.Y)) ?? calc.get3Dfrom2D(e.X, e.Y);
@@ -221,6 +301,20 @@ namespace SingleView
             point.Y + ";" + point.Z + ") on the scene");
           break;
         case StateManager.PlaneSwitch:
+          // moq only
+          if (!pointWas1)
+          {
+            e.X = 380;
+            e.Y = 257;
+            pointWas1 = true;
+          }
+          else
+          {
+            e.X = 184;
+            e.Y = 215;
+          }
+
+          //
           DotSpatial.Topology.Point pointps = DataManager.IsCalculated(new Point(e.X, e.Y)) ?? calc.get3Dfrom2D(e.X, e.Y);
           listBox.Items.Add("picked (" + e.X + ";" + e.Y + ") on image as (" + pointps.X + ";" +
             pointps.Y + ";" + pointps.Z + ") on the scene");
@@ -231,6 +325,20 @@ namespace SingleView
           MessageBox.Show(@"now pick up a point on other plane with same X,Y coordinates!");
           break;
         case StateManager.PlaneSwitchPointPicked:
+          // moq only
+          if (!pointWas2)
+          {
+            e.X = 395;
+            e.Y = 370;
+            pointWas2 = true;
+          }
+          else
+          {
+            e.X = 159;
+            e.Y = 154;
+          }
+
+          //
           g.FillEllipse(switchPlaneBrush, e.X - 5, e.Y - 5, 10, 10);
           DotSpatial.Topology.Point pointPS = calc.get3dCoordsSwitchPlane(new Point(e.X, e.Y));
           // проверка не тыкнули ли мы уже в известную точку
@@ -357,7 +465,7 @@ namespace SingleView
 
     private void switchPlaneToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      if (StateManager.CurrentState == StateManager.PointsCalc)
+      if (StateManager.CurrentState >= StateManager.AlphaZCalced)
       {
         MessageBox.Show(@"select any point in current plane!");
         StateManager.CurrentState = StateManager.PlaneSwitch;

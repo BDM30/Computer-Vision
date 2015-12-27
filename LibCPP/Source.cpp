@@ -496,6 +496,7 @@ namespace LibCpp
 		refHomoS2I(2, 0) = refHomoS2IArray[6];
 		refHomoS2I(2, 1) = refHomoS2IArray[7];
 		refHomoS2I(2, 2) = refHomoS2IArray[8];
+		cout << endl << refHomoS2I << endl;
 
 		P1 = refHomoS2I.col(0);
 		P2 = refHomoS2I.col(1);
@@ -524,9 +525,9 @@ namespace LibCpp
 		ofstream fout("homo.txt");
 		fout << newPollPt.homoMatrixEig3;
 		fout.close();
-		fout.open("homoi.txt");
+		/*fout.open("homoi.txt");
 		fout << newPollPt.homoMatrixEig3.inverse();
-		fout.close();
+		fout.close();*/
 		return z;
 	}
 
@@ -534,6 +535,8 @@ namespace LibCpp
 
 //int main()
 //{
-//	LibCpp::get3dCoordsSwitchPlane(395, 367, 1, 1, -0.08894, 533.426, 1246.416);
+//	// входные аргументы ок
+//	// только не проверил матрицу homoi
+//	LibCpp::get3dCoordsSwitchPlane(395, 370, 1, 1, -0.0968, 498.628, 1150.669);
 //	return 0;
 //}
